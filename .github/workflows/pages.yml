@@ -1,0 +1,68 @@
+# Publish the courseware site from this repository.
+#
+# Pages is still on the generated pages-build-deployment workflow (build_type
+# legacy). That workflow was created before the username change and still
+# checks out the old repository name. actions/deploy-pages then calls
+# getIDToken() with no audience, so the token audience stays on the previous
+# owner while the Pages API expects the current owner.
+#
+# This workflow runs as the current repository, requests an OIDC audience of
+# https://github.com/<current owner>, switches Pages to build_type=workflow,
+# and deploys the lesson tree unchanged. .git and .github are left out of the
+# artifact by actions/upload-pages-artifact. Lesson mp4s are all referenced and
+# by themselves exceed the 1 GiB warning; they stay in the artifact because the
+# same tree published successfully on 2026-09-26.
+
+name: Deploy GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+  # Lets this job set Pages build_type to workflow. If the token cannot, the
+  # deploy script prints the settings step and still attempts the deployment.
+  administration: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Check published site
+        env:
+          PYTHONDONTWRITEBYTECODE: "1"
+        run: python3 .github/scripts/pages_deploy.py check
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        id: upload
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        env:
+          ARTIFACT_ID: ${{ steps.upload.outputs.artifact_id }}
+          PYTHONDONTWRITEBYTECODE: "1"
+        run: python3 .github/scripts/pages_deploy.py deploy
