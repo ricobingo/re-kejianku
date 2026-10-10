@@ -16,8 +16,6 @@ name: Deploy GitHub Pages
 
 on:
   push:
-    branches: [main]
-  pull_request:
   workflow_dispatch:
 
 permissions:
@@ -55,18 +53,18 @@ jobs:
         run: bash scripts/build-pages-site.sh
 
       - name: Configure Pages
-        if: github.event_name != 'pull_request'
+        if: github.ref == 'refs/heads/main'
         uses: actions/configure-pages@v5
 
       - name: Upload Pages artifact
         id: upload
-        if: github.event_name != 'pull_request'
+        if: github.ref == 'refs/heads/main'
         uses: actions/upload-pages-artifact@v3
         with:
           path: _site
 
   deploy:
-    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/main'
     needs: build
     runs-on: ubuntu-latest
     timeout-minutes: 30
@@ -81,5 +79,6 @@ jobs:
         id: deployment
         env:
           ARTIFACT_ID: ${{ needs.build.outputs.artifact_id }}
+          GITHUB_TOKEN: ${{ github.token }}
           PYTHONDONTWRITEBYTECODE: "1"
         run: python3 scripts/deploy_pages.py
