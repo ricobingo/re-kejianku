@@ -1,17 +1,13 @@
 # Publish the courseware site from this repository.
 #
-# Pages is still on the generated pages-build-deployment workflow (build_type
-# legacy). That workflow was created before the username change and still
-# checks out the old repository name. actions/deploy-pages then calls
-# getIDToken() with no audience, so the token audience stays on the previous
-# owner while the Pages API expects the current owner.
+# Requests an OIDC audience of https://github.com/<current owner> and deploys
+# the lesson tree unchanged. actions/upload-pages-artifact leaves .git and
+# .github out of the artifact. Lesson mp4s are all referenced and by themselves
+# exceed the 1 GiB warning; they stay in the artifact. The same size published
+# successfully on 2026-09-26 and again on 2026-10-10.
 #
-# This workflow runs as the current repository, requests an OIDC audience of
-# https://github.com/<current owner>, switches Pages to build_type=workflow,
-# and deploys the lesson tree unchanged. .git and .github are left out of the
-# artifact by actions/upload-pages-artifact. Lesson mp4s are all referenced and
-# by themselves exceed the 1 GiB warning; they stay in the artifact because the
-# same tree published successfully on 2026-09-26.
+# Do not add a permissions key that is not in the GITHUB_TOKEN schema.
+# `administration` is rejected before any job starts.
 
 name: Deploy GitHub Pages
 
@@ -21,13 +17,12 @@ on:
       - main
   workflow_dispatch:
 
+# GITHUB_TOKEN scopes only. `administration` is not one of them; adding it
+# makes GitHub reject this file before any job starts.
 permissions:
   contents: read
   pages: write
   id-token: write
-  # Lets this job set Pages build_type to workflow. If the token cannot, the
-  # deploy script prints the settings step and still attempts the deployment.
-  administration: write
 
 concurrency:
   group: pages

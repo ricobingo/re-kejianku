@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 """Check and publish this static site to GitHub Pages.
 
-The generated pages-build-deployment workflow still checks out the repository
-under its pre-rename owner and calls actions/deploy-pages. That action requests
-an OIDC token with the default audience, which is the owner URL stored for that
-workflow. Pages now expects the current owner, so the deploy is rejected.
+Requests an OIDC token for https://github.com/<current owner>, then calls the
+Pages deployment API. Lesson files are not rewritten or omitted.
 
-This script asks for https://github.com/<current owner> explicitly, then calls
-the Pages deployment API. Lesson files are not rewritten or omitted.
+GITHUB_TOKEN cannot change Pages source. `administration` is not a workflow
+permission; declaring it prevents every job from starting. An admin switches
+Source to GitHub Actions in the repository settings if this workflow should
+replace the generated branch deployer.
 """
 
 from __future__ import annotations
@@ -38,10 +38,12 @@ FINAL_FAILURES = {
     "deployment_lost": "Pages deployment stopped reporting status.",
 }
 PENDING_HINT = (
-    "If Pages is still set to deploy from a branch, a repository admin must "
-    "set Source to GitHub Actions (build_type=workflow) and re-run this "
-    "workflow. Do not disable Pages; the current site should stay up until a "
-    "new deployment succeeds."
+    "This job cannot change Pages source. GITHUB_TOKEN has no administration "
+    "scope, and that scope is not a valid workflow permission. If this "
+    "repository should publish only from this workflow, a repository admin "
+    "opens Settings, Pages, Build and deployment, and sets Source to GitHub "
+    "Actions, then re-runs this workflow. Do not disable Pages. Until that "
+    "switch, the generated branch workflow is what publishes the live site."
 )
 
 
@@ -206,20 +208,6 @@ def write_output(page_url: str) -> None:
         handle.write(f"page_url={page_url}\n")
 
 
-def ensure_workflow_source(api: str, repository: str, github_token: str) -> None:
-    status, body = api_request(
-        "PUT",
-        f"{api}/repos/{repository}/pages",
-        github_token,
-        {"build_type": "workflow"},
-    )
-    build_type = body.get("build_type") if isinstance(body, dict) else None
-    message = body.get("message") if isinstance(body, dict) else None
-    print(f"Set Pages build_type=workflow -> HTTP {status} build_type={build_type} message={message}")
-    if status >= 400:
-        print(PENDING_HINT)
-
-
 def command_deploy() -> int:
     audience = f"{os.environ.get('GITHUB_SERVER_URL', 'https://github.com')}/{os.environ['GITHUB_REPOSITORY_OWNER']}"
     print(f"Requesting OIDC token for audience {audience}")
@@ -248,7 +236,7 @@ def command_deploy() -> int:
     api = os.environ.get("GITHUB_API_URL", "https://api.github.com").rstrip("/")
     repository = os.environ["GITHUB_REPOSITORY"]
     github_token = os.environ["GITHUB_TOKEN"]
-    ensure_workflow_source(api, repository, github_token)
+    print(PENDING_HINT)
 
     artifact_id = int(os.environ["ARTIFACT_ID"])
     build_version = os.environ["GITHUB_SHA"]
