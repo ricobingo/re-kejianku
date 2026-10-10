@@ -1,63 +1,84 @@
-# Publish the courseware site from this repository.
+# Publish https://ricobingo.github.io/re-kejianku/
 #
-# Requests an OIDC audience of https://github.com/<current owner> and deploys
-# the lesson tree unchanged. actions/upload-pages-artifact leaves .git and
-# .github out of the artifact. Lesson mp4s are all referenced and by themselves
-# exceed the 1 GiB warning; they stay in the artifact. The same size published
-# successfully on 2026-09-26 and again on 2026-10-10.
+# The generated pages-build-deployment workflow still requests an OIDC token
+# for https://github.com/ricober33. actions/deploy-pages calls getIDToken()
+# with no audience, so it can keep that stale audience. This workflow asks for
+# https://github.com/ricobingo explicitly.
 #
-# Do not add a permissions key that is not in the GITHUB_TOKEN schema.
-# `administration` is rejected before any job starts.
+# Permissions are only contents, pages, and id-token. "administration" is not
+# a GITHUB_TOKEN permission; putting it in this file makes Actions reject the
+# workflow before any job starts.
+#
+# One-time repo setting: Settings → Pages → Source: GitHub Actions. That stops
+# the generated workflow from publishing the full 1.4 GB tree over this one.
 
 name: Deploy GitHub Pages
 
 on:
   push:
-    branches:
-      - main
   workflow_dispatch:
 
-# GITHUB_TOKEN scopes only. `administration` is not one of them; adding it
-# makes GitHub reject this file before any job starts.
 permissions:
   contents: read
   pages: write
   id-token: write
 
 concurrency:
-  group: pages
+  group: pages-${{ github.ref }}
   cancel-in-progress: false
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
     timeout-minutes: 40
+    outputs:
+      artifact_id: ${{ steps.upload.outputs.artifact_id }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Require OIDC audience https://github.com/ricobingo
+        run: |
+          audience="https://github.com/${{ github.repository_owner }}"
+          if [ "$audience" != "https://github.com/ricobingo" ]; then
+            echo "::error::Pages OIDC audience must be https://github.com/ricobingo, got ${audience}"
+            exit 1
+          fi
+          echo "Pages OIDC audience: https://github.com/ricobingo"
+
+      - name: Install ffmpeg
+        run: sudo apt-get update && sudo apt-get install -y ffmpeg
+
+      - name: Build site under the 1GB Pages limit
+        run: bash scripts/build-pages-site.sh
+
+      - name: Configure Pages
+        if: github.ref == 'refs/heads/main'
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        id: upload
+        if: github.ref == 'refs/heads/main'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    if: github.ref == 'refs/heads/main'
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 1
-
-      - name: Check published site
-        env:
-          PYTHONDONTWRITEBYTECODE: "1"
-        run: python3 .github/scripts/pages_deploy.py check
-
-      - name: Configure Pages
-        uses: actions/configure-pages@v5
-
-      - name: Upload Pages artifact
-        id: upload
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: .
 
       - name: Deploy to GitHub Pages
         id: deployment
         env:
-          ARTIFACT_ID: ${{ steps.upload.outputs.artifact_id }}
+          ARTIFACT_ID: ${{ needs.build.outputs.artifact_id }}
+          GITHUB_TOKEN: ${{ github.token }}
           PYTHONDONTWRITEBYTECODE: "1"
-        run: python3 .github/scripts/pages_deploy.py deploy
+        run: python3 scripts/deploy_pages.py

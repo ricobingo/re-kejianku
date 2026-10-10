@@ -1,0 +1,4 @@
+# Produced by scripts/build-pages-site.sh. Not part of the courseware source.
+_site/
+__pycache__/
+*.pyc
