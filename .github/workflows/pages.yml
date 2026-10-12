@@ -58,6 +58,7 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         env:
+          GITHUB_TOKEN: ${{ github.token }}
           ARTIFACT_ID: ${{ steps.upload.outputs.artifact_id }}
           PYTHONDONTWRITEBYTECODE: "1"
         run: python3 .github/scripts/pages_deploy.py deploy
