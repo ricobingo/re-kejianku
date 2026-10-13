@@ -276,6 +276,9 @@ document.querySelectorAll('.c8').forEach(function(cb){
   });
 });
 
+function rearm(){var b=document.getElementById('submitBtn');if(b&&!b.disabled)delete b.dataset.forced;}
+document.querySelectorAll('input, select, textarea').forEach(function(el){el.addEventListener('input',rearm);el.addEventListener('change',rearm);});
+
 document.getElementById('submitBtn').addEventListener('click',function(){
   // completeness check (soft)
   var missing=[];

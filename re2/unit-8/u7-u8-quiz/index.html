@@ -286,6 +286,9 @@ wEl.addEventListener('input',function(){
   document.getElementById('wc').textContent=n;
 });
 
+function rearm(){var b=document.getElementById('submitBtn');if(b&&!b.disabled)delete b.dataset.forced;}
+document.querySelectorAll('input, select, textarea').forEach(function(el){el.addEventListener('input',rearm);el.addEventListener('change',rearm);});
+
 document.getElementById('submitBtn').addEventListener('click',function(){
   var gapIds=["v1","v2","v3","v4","v5","v6","v7","v8","v9","v10","o1","o2","o3","o4","o5",
               "sc1","sc2","n1","n2"];

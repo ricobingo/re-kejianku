@@ -1049,6 +1049,7 @@ window.LESSON = {id:'12B2', title:'The Missing Pilot · Degrees of Certainty & t
   window.show=function(n){
     idx=Math.max(0,Math.min(slides.length-1,n));
     slides.forEach((s,i)=>s.classList.toggle('active',i===idx));
+    frame.querySelectorAll('video,audio').forEach(v=>{if(!v.closest('.slide').classList.contains('active'))v.pause();});
     [...dotsWrap.children].forEach((d,i)=>d.classList.toggle('on',i===idx));
     if(badge) badge.textContent=L.id+' · '+(idx+1)+' / '+slides.length;
     const conf=slides[idx].querySelector('#confetti'); if(conf) confetti(conf);
