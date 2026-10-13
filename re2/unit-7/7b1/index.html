@@ -349,10 +349,10 @@ window.LESSON = { id:'7B1', title:'The Power of Perfume · Words', slides:[
   title:'Match each word to its meaning',
   qs:[
     {cat:'brand', q:'A **brand** is ___.', hint:'Think of the swoosh on a shoe.',
-      opts:['the name and image that identifies a certain product','companies in the same industry with similar customers','the action of promoting or selling products'],
+      opts:['companies in the same industry with similar customers','the name and image that identifies a certain product','the action of promoting or selling products'],
       ans:'the name and image that identifies a certain product'},
     {cat:'competitors', q:'**Competitors** are ___.', hint:'They want the same customers you want.',
-      opts:['the action of promoting or selling products','companies in the same industry with similar customers','the name and image that identifies a certain product'],
+      opts:['companies in the same industry with similar customers','the action of promoting or selling products','the name and image that identifies a certain product'],
       ans:'companies in the same industry with similar customers'},
     {cat:'marketing', q:'**Marketing** is ___.', hint:'Adverts, ads, posters, celebrities.',
       opts:['companies in the same industry with similar customers','the name and image that identifies a certain product','the action of promoting or selling products'],
@@ -476,8 +476,8 @@ window.LESSON = { id:'7B1', title:'The Power of Perfume · Words', slides:[
 /* 23 */ {type:'truefalse', bg:'sky', timer:'56–59 min',
   eyebrow:'⚖️ Before you read · guess now, check next lesson', title:'True or false?',
   statements:[
-    {t:'Most new perfumes that come out each year become successful.', ans:false, why:'Hundreds are launched every year — and only a few succeed. It is a risky business.'},
     {t:'Smell and memory are closely connected in our brains.', ans:true, why:'True — and perfume makers know it. Certain aromas can call up deep memories.'},
+    {t:'Most new perfumes that come out each year become successful.', ans:false, why:'Hundreds are launched every year — and only a few succeed. It is a risky business.'},
     {t:'A good fragrance uses only natural materials.', ans:false, why:'One authority calls a good fragrance a balance between naturals and synthetics.'},
     {t:'In a perfume shop, how the product looks matters as much as the product itself.', ans:true, why:'True — the emphasis is on presentation at least as much as on the product.'}]},
 
@@ -557,6 +557,37 @@ window.LESSON = { id:'7B1', title:'The Power of Perfume · Words', slides:[
      不同页之间顺序不同。全 ES5 写法，旧 WebKit（ClassIn 内置浏览器）能跑。 */
   function ORD_seed(str){var h=5381;for(var i=0;i<str.length;i++){h=(h*33+str.charCodeAt(i))%4294967296;}return h;}
   function ORD_rnd(seed){var s=seed||1;return function(){s^=s<<13;s>>>=0;s^=s>>17;s^=s<<5;s>>>=0;return s/4294967296;};}
+  /* ── 2026-10-09 外教反馈修（RE2 9B2 p29 / 10A1 p5「This activity follows a pattern again」
+     「there is a spelling error」）。
+     ① 一页里几轮的正确答案位置按 1、2、3、4、1 轮着走，不读题也能猜。ANS_layout：种子取内容哈希
+        （同一页每次打开一样），每轮各自重排选项，试 300 种取罚分最低的；ANS_pen 与检查程序
+        teacher_feedback_gate.py 同一套判据。
+     ② 抢词游戏把释义写成纯文本，&rsquo; 这类符号代码原样露出来；ENT() 先还原成字符。ES5 写法。 */
+  function ENT(s){ if(s===null||s===undefined) return ''; s=String(s); if(s.indexOf('&')<0) return s;
+    var t=document.createElement('textarea'); t.innerHTML=s; return t.value; }
+  function ANS_pen(pos,m){ var L=pos.length,p=0,k,x,y,a,b,d,mm,c={};
+    if(L<2) return 0;
+    for(k=0;k<L;k++){ c[pos[k]]=(c[pos[k]]||0)+1;
+      if(k>1){ x=pos[k-1]-pos[k-2]; y=pos[k]-pos[k-1];
+        if(m>=3&&x===y&&(x===1||x===-1)) p+=100;
+        if(m>=3&&x===0&&y===0) p+=100; }
+      if(k>2){ if(pos[k]===pos[k-2]&&pos[k-1]===pos[k-3]&&pos[k]!==pos[k-1]) p+=100;
+        if(m===2&&pos[k]===pos[k-1]&&pos[k-1]===pos[k-2]&&pos[k-2]===pos[k-3]) p+=100;
+        if(m>=3){ mm=m; a=((pos[k-2]-pos[k-3])%mm+mm)%mm; b=((pos[k-1]-pos[k-2])%mm+mm)%mm; d=((pos[k]-pos[k-1])%mm+mm)%mm;
+          if(a===b&&b===d&&(a===1||a===mm-1)) p+=100; } } }
+    a=Math.floor(L/m); b=Math.ceil(L/m);
+    for(k=0;k<m;k++){ x=c[k]||0; if(x<a) p+=50*(a-x); if(x>b) p+=50*(x-b); }
+    return p; }
+  function ANS_layout(rounds,key){
+    var n=(rounds||[]).length,m=0,k,t,i,j,x,a,cand,pos,p,best=null,bestP=Infinity; if(!n) return [];
+    for(k=0;k<n;k++) m=Math.max(m,(rounds[k].opts||[]).length);
+    var rnd=ORD_rnd(ORD_seed('ANS#'+key));
+    for(t=0;t<1500;t++){ cand=[]; pos=[];
+      for(k=0;k<n;k++){ a=(rounds[k].opts||[]).slice();
+        for(i=a.length-1;i>0;i--){ j=Math.floor(rnd()*(i+1)); x=a[i]; a[i]=a[j]; a[j]=x; }
+        cand.push(a); pos.push(a.indexOf(rounds[k].ans)); }
+      p=ANS_pen(pos,m); if(p<bestP){ bestP=p; best=cand; } if(p===0) break; }
+    return best; }
   function ORD_shuffle(list,ansSeq){
     if(!list||list.length<2)return (list||[]).slice();
     ansSeq=ansSeq||[];
@@ -727,7 +758,8 @@ window.LESSON = { id:'7B1', title:'The Power of Perfume · Words', slides:[
         <div class="w">${w.w}<small>${w.pos||''}</small></div><div class="d">${rt(w.def)}</div></div>`).join('')}</div>`;
     addBlobs(d,s.bg||'lilac'); return d; };
 
-  R.game = (s)=>{ s=KAI_gameRounds(s); const d=el('div','slide center '+('bg-'+(s.bg||'mint')));
+  R.game = (s)=>{ s=KAI_gameRounds(s); const LAY=ANS_layout(s.rounds,s.rounds.map(r=>r.def+'='+r.ans).join('|'));
+    const d=el('div','slide center '+('bg-'+(s.bg||'mint')));
     d.innerHTML = `${timerPill(s.timer)}<div class="scorepill"><span class="qn">Q1 of ${s.rounds.length}</span> · ⭐ <span class="sc">0</span></div>
       ${eyebrow(s.eyebrow||'Game · choose the word')}<h2 style="font-size:4cqh">${rt(s.title||'Which word matches?')}</h2>
       <div class="game-def"></div><div class="opts"></div><div class="gamemsg"></div>
@@ -743,14 +775,14 @@ window.LESSON = { id:'7B1', title:'The Power of Perfume · Words', slides:[
       p.style.transform=now?'scale(1.35)':'none'; }); }
     function clearWrong(){ [].slice.call(optsEl.querySelectorAll('.opt')).forEach(function(x){ x.classList.remove('wrong'); }); }
     function round(){ const r=s.rounds[i]; if(qnEl) qnEl.textContent='Q'+(i+1)+' of '+s.rounds.length; paint(); defEl.innerHTML=rt(r.def); optsEl.innerHTML=''; msgEl.textContent=''; msgEl.style.color='';
-      r.opts.forEach(o=>{ const b=el('div','opt',o); b.addEventListener('click',()=>{ clearWrong();
+      (LAY[i]||r.opts).forEach(o=>{ const b=el('div','opt',o); b.addEventListener('click',()=>{ clearWrong();
         if(o===r.ans){ b.classList.add('right'); score++; scEl.textContent=score; msgEl.style.color=''; paint();
           if(qnEl && i===s.rounds.length-1) qnEl.textContent='Done';
           msgEl.textContent = i===s.rounds.length-1?'🎉 All done!':'✓ Nice!';
           [...optsEl.children].forEach(x=>x.style.pointerEvents='none');
           setTimeout(()=>{ i++; if(i<s.rounds.length){ round(); } else { paint(); } }, 750);
         } else { b.classList.add('wrong'); msgEl.style.color='var(--red-d)';
-          msgEl.textContent='Not quite — “'+o+'” is not it. Pick another one.'; }
+          msgEl.textContent='Not quite — “'+ENT(o)+'” is not it. Pick another one.'; }
       }); optsEl.appendChild(b); }); }
     round(); return d; };
 

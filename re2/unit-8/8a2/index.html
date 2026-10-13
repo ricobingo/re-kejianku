@@ -415,11 +415,11 @@ window.LESSON={ id:'8A2', slides:[
    img:'a_statue.jpg'},
 
  {type:'quiz', theme:'terra', eyebrow:'Gist &middot; read fast, 2 minutes', title:'Read for the big picture',
-   q:'Read the WHOLE passage in 2 minutes. Don&rsquo;t stop for new words. What is it mainly about?', ans:'b', opts:[
-   {k:'a', t:'How horse riders carried messages across China'},
-   {k:'b', t:'Why Marco Polo&rsquo;s travels still matter today'},
+   q:'Read the WHOLE passage in 2 minutes. Don&rsquo;t stop for new words. What is it mainly about?', ans:'a', opts:[
+   {k:'a', t:'Why Marco Polo&rsquo;s travels still matter today'},
+   {k:'b', t:'How horse riders carried messages across China'},
    {k:'c', t:'How the Polos first found the road from Venice to China'}],
-   note:'a is only one **detail** in the middle. c is how they got there — the text is about **what came of it**.'},
+   note:'b is only one **detail** in the middle. c is how they got there — the text is about **what came of it**.'},
 
  /* ===== Paragraph A ===== */
  {type:'reading', theme:'cream', eyebrow:'Reading &middot; An Incredible Journey', title:'Paragraph A', img:'c_desert.jpg',
@@ -432,10 +432,10 @@ window.LESSON={ id:'8A2', slides:[
    note:'You **achieve**, **set** or **reach** an objective — you do not <i>win</i> one. And an objective is chosen **before** you start: that is why the text says they &ldquo;finally achieved&rdquo; it.'},
 
  {type:'quiz', theme:'green', eyebrow:'After A &middot; word check', title:'informal',
-   q:'The Khan was surprisingly **informal**. Which of these two is the informal one?', ans:'a', opts:[
-   {k:'a', t:'One classmate to another: &ldquo;So — you made it. Grab a chair.&rdquo;'},
-   {k:'b', t:'A principal on stage: &ldquo;Good morning. It is my privilege to welcome our guests.&rdquo;'}],
-   note:'**Informal** = relaxed, friendly, unofficial. b is the opposite — that is **formal**. Neither one is from the passage: the word has to travel to a new situation before you can say you know it.'},
+   q:'The Khan was surprisingly **informal**. Which of these two is the informal one?', ans:'b', opts:[
+   {k:'a', t:'A principal on stage: &ldquo;Good morning. It is my privilege to welcome our guests.&rdquo;'},
+   {k:'b', t:'One classmate to another: &ldquo;So — you made it. Grab a chair.&rdquo;'}],
+   note:'**Informal** = relaxed, friendly, unofficial. a is the opposite — that is **formal**. Neither one is from the passage: the word has to travel to a new situation before you can say you know it.'},
 
  {type:'quiz', theme:'sky', eyebrow:'After A &middot; big idea', title:'What is Paragraph A about?',
    q:'Which sentence tells the BIG idea of Paragraph A?', ans:'a', opts:[
@@ -449,9 +449,9 @@ window.LESSON={ id:'8A2', slides:[
    text:'Marco Polo’s trip had, in fact, started more than 9,000 kilometers away in Venice when he was just a teenager. His father and uncle already knew Kublai Khan from a previous visit nine years earlier, when they had spent a short time in Shangdu. On this second trip, the Polos stayed for 17 years before they returned home. They made themselves useful to the Khan, and <mark>undertook</mark> various missions and tasks for him. It is likely that the Khan <mark>considered</mark> it an honor that these Europeans—who were rare in China—had made this extremely difficult journey, and he took the opportunity to make good use of their skills and knowledge.'},
 
  {type:'quiz', theme:'violet', eyebrow:'After B &middot; word check', title:'consider',
-   q:'The Khan **considered** it an honor. This means he ___.', ans:'b', opts:[
-   {k:'a', t:'counted how many honors he had been given'},
-   {k:'b', t:'thought of their visit as an honor'}],
+   q:'The Khan **considered** it an honor. This means he ___.', ans:'a', opts:[
+   {k:'a', t:'thought of their visit as an honor'},
+   {k:'b', t:'counted how many honors he had been given'}],
    note:'**Consider** here = think of X **as** Y. Say it: <i>I consider him a friend.</i>'},
 
  {type:'pick2', theme:'amber', eyebrow:'After B &middot; word check', title:'undertake', need:2,
@@ -470,9 +470,9 @@ window.LESSON={ id:'8A2', slides:[
    text:'While he was in the service of Kublai Khan, “the most powerful man in people and in lands and in treasure that ever was in the world,” Marco Polo was able to learn and experience many things that were new to Europeans. In his travel <mark>journal</mark>, he wrote that Kublai Khan’s palace was the greatest he had ever seen. He <mark>admired</mark> the Khan’s recently completed new capital—Daidu—whose streets were “so straight and so broad.” The city was located in what is now the center of Beijing, and Kublai Khan’s city planning can still be <mark>perceived</mark> in the straight, broad streets of China’s modern capital.'},
 
  {type:'quiz', theme:'amber', eyebrow:'After C &middot; word check', title:'journal',
-   q:'Marco wrote it all in a travel **journal**. Which of these three is a journal?', ans:'a', opts:[
-   {k:'a', t:'A notebook he wrote in day by day while he was there.'},
-   {k:'b', t:'A letter he sent home once a year.'},
+   q:'Marco wrote it all in a travel **journal**. Which of these three is a journal?', ans:'b', opts:[
+   {k:'a', t:'A letter he sent home once a year.'},
+   {k:'b', t:'A notebook he wrote in day by day while he was there.'},
    {k:'c', t:'A history book somebody wrote two hundred years later.'}],
    note:'A journal is written **on the spot, by the person who was there**. That is exactly why historians love it.'},
 
@@ -597,6 +597,37 @@ window.LESSON={ id:'8A2', slides:[
      不同页之间顺序不同。全 ES5 写法，旧 WebKit（ClassIn 内置浏览器）能跑。 */
   function ORD_seed(str){var h=5381;for(var i=0;i<str.length;i++){h=(h*33+str.charCodeAt(i))%4294967296;}return h;}
   function ORD_rnd(seed){var s=seed||1;return function(){s^=s<<13;s>>>=0;s^=s>>17;s^=s<<5;s>>>=0;return s/4294967296;};}
+  /* ── 2026-10-09 外教反馈修（RE2 9B2 p29 / 10A1 p5「This activity follows a pattern again」
+     「there is a spelling error」）。
+     ① 一页里几轮的正确答案位置按 1、2、3、4、1 轮着走，不读题也能猜。ANS_layout：种子取内容哈希
+        （同一页每次打开一样），每轮各自重排选项，试 300 种取罚分最低的；ANS_pen 与检查程序
+        teacher_feedback_gate.py 同一套判据。
+     ② 抢词游戏把释义写成纯文本，&rsquo; 这类符号代码原样露出来；ENT() 先还原成字符。ES5 写法。 */
+  function ENT(s){ if(s===null||s===undefined) return ''; s=String(s); if(s.indexOf('&')<0) return s;
+    var t=document.createElement('textarea'); t.innerHTML=s; return t.value; }
+  function ANS_pen(pos,m){ var L=pos.length,p=0,k,x,y,a,b,d,mm,c={};
+    if(L<2) return 0;
+    for(k=0;k<L;k++){ c[pos[k]]=(c[pos[k]]||0)+1;
+      if(k>1){ x=pos[k-1]-pos[k-2]; y=pos[k]-pos[k-1];
+        if(m>=3&&x===y&&(x===1||x===-1)) p+=100;
+        if(m>=3&&x===0&&y===0) p+=100; }
+      if(k>2){ if(pos[k]===pos[k-2]&&pos[k-1]===pos[k-3]&&pos[k]!==pos[k-1]) p+=100;
+        if(m===2&&pos[k]===pos[k-1]&&pos[k-1]===pos[k-2]&&pos[k-2]===pos[k-3]) p+=100;
+        if(m>=3){ mm=m; a=((pos[k-2]-pos[k-3])%mm+mm)%mm; b=((pos[k-1]-pos[k-2])%mm+mm)%mm; d=((pos[k]-pos[k-1])%mm+mm)%mm;
+          if(a===b&&b===d&&(a===1||a===mm-1)) p+=100; } } }
+    a=Math.floor(L/m); b=Math.ceil(L/m);
+    for(k=0;k<m;k++){ x=c[k]||0; if(x<a) p+=50*(a-x); if(x>b) p+=50*(x-b); }
+    return p; }
+  function ANS_layout(rounds,key){
+    var n=(rounds||[]).length,m=0,k,t,i,j,x,a,cand,pos,p,best=null,bestP=Infinity; if(!n) return [];
+    for(k=0;k<n;k++) m=Math.max(m,(rounds[k].opts||[]).length);
+    var rnd=ORD_rnd(ORD_seed('ANS#'+key));
+    for(t=0;t<1500;t++){ cand=[]; pos=[];
+      for(k=0;k<n;k++){ a=(rounds[k].opts||[]).slice();
+        for(i=a.length-1;i>0;i--){ j=Math.floor(rnd()*(i+1)); x=a[i]; a[i]=a[j]; a[j]=x; }
+        cand.push(a); pos.push(a.indexOf(rounds[k].ans)); }
+      p=ANS_pen(pos,m); if(p<bestP){ bestP=p; best=cand; } if(p===0) break; }
+    return best; }
   function ORD_shuffle(list,ansSeq){
     if(!list||list.length<2)return (list||[]).slice();
     ansSeq=ansSeq||[];
@@ -765,7 +796,7 @@ window.LESSON={ id:'8A2', slides:[
     vocabFlip(sec){sec.querySelectorAll('.flip').forEach(f=>f.onclick=()=>f.classList.toggle('on'));},
     wordGame(sec,s){
       const def=sec.querySelector('.wm-def'),opts=sec.querySelector('.wm-opts'),msg=sec.querySelector('.wm-msg'),sb=sec.querySelector('.scorebar');
-      let i=0,score=0;
+      let i=0,score=0; const LAY=ANS_layout(s.rounds,s.rounds.map(r=>r.def+'='+r.ans).join('|'));
       /* 2026-08-18：原来计分条只写 0/5，屏幕上却只有一题，老师以为课件只出了一题。改成报第几题+得分。
          同日第二轮（Rico 实点后拍板）：再加一排跟题数一样多的进度点——**不点也能数到共几题**；
          并且点错的反馈留到下一次点击才清（原来 0.6 秒就没，u7 的 .wrong 还只有抖动没颜色，
@@ -781,12 +812,12 @@ window.LESSON={ id:'8A2', slides:[
       function render(){
         bar();
         if(i>=s.rounds.length){def.textContent='';opts.innerHTML='';msg.innerHTML='All done &mdash; '+score+' / '+s.rounds.length+' correct! &#9989;';return;}
-        const r=s.rounds[i];def.textContent=r.def;msg.textContent='';opts.innerHTML='';
-        r.opts.forEach(o=>{const b=document.createElement('button');b.className='wm-opt';b.textContent=o;
+        const r=s.rounds[i];def.textContent=ENT(r.def);msg.textContent='';opts.innerHTML='';
+        (LAY[i]||r.opts).forEach(o=>{const b=document.createElement('button');b.className='wm-opt';b.textContent=ENT(o);
           b.onclick=()=>{if(b.disabled)return;clearWrong();
-            if(o===r.ans){opts.querySelectorAll('button').forEach(x=>x.disabled=true);b.classList.add('right');score++;bar();msg.style.color='';msg.textContent='Yes! '+o;setTimeout(()=>{i++;render();},700);}
+            if(o===r.ans){opts.querySelectorAll('button').forEach(x=>x.disabled=true);b.classList.add('right');score++;bar();msg.style.color='';msg.textContent='Yes! '+ENT(o);setTimeout(()=>{i++;render();},700);}
             else{b.classList.add('wrong');b.style.background='#FBE4DA';b.style.borderColor='#B85C39';b.style.color='#B85C39';
-              msg.style.color='#B85C39';msg.textContent='Not quite — “'+o+'” is not it. Pick another one.';}};
+              msg.style.color='#B85C39';msg.textContent='Not quite — “'+ENT(o)+'” is not it. Pick another one.';}};
           opts.appendChild(b);});
       }
       render();

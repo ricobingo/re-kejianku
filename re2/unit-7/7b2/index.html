@@ -355,11 +355,11 @@ window.LESSON={ id:'7B2', slides:[
    img:'b_store.jpg'},
 
  {type:'quiz', theme:'terra', eyebrow:'Gist · read fast, 2 minutes', title:'Read for the big picture',
-   q:'Read the WHOLE text in 2 minutes. Don&rsquo;t stop for new words. What is it mainly about?', ans:'c', opts:[
+   q:'Read the WHOLE text in 2 minutes. Don&rsquo;t stop for new words. What is it mainly about?', ans:'b', opts:[
    {k:'a', t:'How scientists make new smells in a laboratory'},
-   {k:'b', t:'The history of the Louvre Museum in Paris'},
-   {k:'c', t:'Why perfume costs so much to sell &mdash; and how it is really sold'}],
-   note:'a is only Paragraph C. b is four words inside Paragraph E. The WHOLE text is about the **business**.'},
+   {k:'b', t:'Why perfume costs so much to sell &mdash; and how it is really sold'},
+   {k:'c', t:'The history of the Louvre Museum in Paris'}],
+   note:'a is only Paragraph C. c is four words inside Paragraph E. The WHOLE text is about the **business**.'},
 
  /* ===== Paragraph A ===== */
  {type:'reading', theme:'cream', eyebrow:'Reading · The Power of Perfume', title:'Paragraph A', img:'b_perfumer.jpg',
@@ -387,9 +387,9 @@ window.LESSON={ id:'7B2', slides:[
    text:'Fragrances can have power over our thoughts and emotions. Scientists believe memory and smell are closely connected in our brains, and that certain aromas have the power to call up deep memories. Perfume makers are especially aware of this and use scents that touch us deeply.'},
 
  {type:'quiz', theme:'violet', eyebrow:'After B · today&rsquo;s skill', title:'One thing, three names',
-   q:'Paragraph B talks about ONE thing, but uses THREE different words for it. Which three?', ans:'b', opts:[
-   {k:'a', t:'memory &middot; brain &middot; emotion'},
-   {k:'b', t:'smell &middot; aromas &middot; scents'},
+   q:'Paragraph B talks about ONE thing, but uses THREE different words for it. Which three?', ans:'a', opts:[
+   {k:'a', t:'smell &middot; aromas &middot; scents'},
+   {k:'b', t:'memory &middot; brain &middot; emotion'},
    {k:'c', t:'power &middot; thoughts &middot; memories'}],
    note:'Words that mean (almost) the same thing are **synonyms**. Writers change the word so the sentence doesn&rsquo;t sound repeated.'},
 
@@ -402,10 +402,10 @@ window.LESSON={ id:'7B2', slides:[
    {q:'So &mdash; odor, stench, stink: positive or negative?', a:'All NEGATIVE. Synonyms can share a meaning but carry a different feeling. Check the feeling before you use one.'}]},
 
  {type:'quiz', theme:'green', eyebrow:'After B · use the skill', title:'Which word fits?',
-   q:'New sentence: &ldquo;The old kitchen still had the ______ of fresh bread.&rdquo; Which word fits BEST?', ans:'c', opts:[
+   q:'New sentence: &ldquo;The old kitchen still had the ______ of fresh bread.&rdquo; Which word fits BEST?', ans:'b', opts:[
    {k:'a', t:'stench'},
-   {k:'b', t:'attitude'},
-   {k:'c', t:'aroma'}],
+   {k:'b', t:'aroma'},
+   {k:'c', t:'attitude'}],
    note:'Fresh bread is a **good** smell, so you need the pleasant synonym. Same meaning &ne; same feeling.'},
 
  /* ===== Paragraph C ===== */
@@ -434,10 +434,10 @@ window.LESSON={ id:'7B2', slides:[
    text:'Hundreds of new perfumes are put on the market every year. Of these, few become successful. It’s a risky business. A company introducing a new scent can easily run through a <mark>budget</mark> of 20 million dollars. <mark>Profits</mark>, however, can be very high. One successful fragrance, CK One from designer Calvin Klein, made 250 million dollars in its first year.'},
 
  {type:'quiz', theme:'violet', eyebrow:'After D · word check', title:'budget',
-   q:'A company can &ldquo;run through a BUDGET of 20 million dollars.&rdquo; What happened?', ans:'b', opts:[
+   q:'A company can &ldquo;run through a BUDGET of 20 million dollars.&rdquo; What happened?', ans:'c', opts:[
    {k:'a', t:'It earned 20 million dollars.'},
-   {k:'b', t:'It had 20 million dollars to spend &mdash; and used it all up.'},
-   {k:'c', t:'It saved 20 million dollars.'}],
+   {k:'b', t:'It saved 20 million dollars.'},
+   {k:'c', t:'It had 20 million dollars to spend &mdash; and used it all up.'}],
    note:'A budget is the money you have **to spend**, and it has a limit. Run through it = use it all up.'},
 
  {type:'speak', theme:'green', eyebrow:'After D · your turn', title:'Use it: profits',
@@ -456,9 +456,9 @@ window.LESSON={ id:'7B2', slides:[
    text:'In a Paris perfume store—a building of shining stone, metal, and glass—famous perfumes are displayed and <mark>guarded</mark> like the works of art in the nearby Louvre Museum. Salespeople are dressed smartly in black, and each type of perfume is sold in a <mark>distinctively</mark> shaped bottle. In perfume sales, the <mark>emphasis</mark> is on presentation at least as much as on the product.'},
 
  {type:'quiz', theme:'amber', eyebrow:'After E · word check', title:'guard',
-   q:'A museum GUARDS its most valuable painting. What is the museum stopping?', ans:'a', opts:[
-   {k:'a', t:'Somebody taking it away.'},
-   {k:'b', t:'Somebody looking at it.'}],
+   q:'A museum GUARDS its most valuable painting. What is the museum stopping?', ans:'b', opts:[
+   {k:'a', t:'Somebody looking at it.'},
+   {k:'b', t:'Somebody taking it away.'}],
    note:'Guard = protect so that nobody takes it. Now look back at the shop: when a shop guards a bottle, it is also **telling** you something about that bottle.'},
 
  {type:'pick2', theme:'teal', eyebrow:'After E · word partners', title:'distinctively', need:2,
@@ -568,6 +568,37 @@ window.LESSON={ id:'7B2', slides:[
      不同页之间顺序不同。全 ES5 写法，旧 WebKit（ClassIn 内置浏览器）能跑。 */
   function ORD_seed(str){var h=5381;for(var i=0;i<str.length;i++){h=(h*33+str.charCodeAt(i))%4294967296;}return h;}
   function ORD_rnd(seed){var s=seed||1;return function(){s^=s<<13;s>>>=0;s^=s>>17;s^=s<<5;s>>>=0;return s/4294967296;};}
+  /* ── 2026-10-09 外教反馈修（RE2 9B2 p29 / 10A1 p5「This activity follows a pattern again」
+     「there is a spelling error」）。
+     ① 一页里几轮的正确答案位置按 1、2、3、4、1 轮着走，不读题也能猜。ANS_layout：种子取内容哈希
+        （同一页每次打开一样），每轮各自重排选项，试 300 种取罚分最低的；ANS_pen 与检查程序
+        teacher_feedback_gate.py 同一套判据。
+     ② 抢词游戏把释义写成纯文本，&rsquo; 这类符号代码原样露出来；ENT() 先还原成字符。ES5 写法。 */
+  function ENT(s){ if(s===null||s===undefined) return ''; s=String(s); if(s.indexOf('&')<0) return s;
+    var t=document.createElement('textarea'); t.innerHTML=s; return t.value; }
+  function ANS_pen(pos,m){ var L=pos.length,p=0,k,x,y,a,b,d,mm,c={};
+    if(L<2) return 0;
+    for(k=0;k<L;k++){ c[pos[k]]=(c[pos[k]]||0)+1;
+      if(k>1){ x=pos[k-1]-pos[k-2]; y=pos[k]-pos[k-1];
+        if(m>=3&&x===y&&(x===1||x===-1)) p+=100;
+        if(m>=3&&x===0&&y===0) p+=100; }
+      if(k>2){ if(pos[k]===pos[k-2]&&pos[k-1]===pos[k-3]&&pos[k]!==pos[k-1]) p+=100;
+        if(m===2&&pos[k]===pos[k-1]&&pos[k-1]===pos[k-2]&&pos[k-2]===pos[k-3]) p+=100;
+        if(m>=3){ mm=m; a=((pos[k-2]-pos[k-3])%mm+mm)%mm; b=((pos[k-1]-pos[k-2])%mm+mm)%mm; d=((pos[k]-pos[k-1])%mm+mm)%mm;
+          if(a===b&&b===d&&(a===1||a===mm-1)) p+=100; } } }
+    a=Math.floor(L/m); b=Math.ceil(L/m);
+    for(k=0;k<m;k++){ x=c[k]||0; if(x<a) p+=50*(a-x); if(x>b) p+=50*(x-b); }
+    return p; }
+  function ANS_layout(rounds,key){
+    var n=(rounds||[]).length,m=0,k,t,i,j,x,a,cand,pos,p,best=null,bestP=Infinity; if(!n) return [];
+    for(k=0;k<n;k++) m=Math.max(m,(rounds[k].opts||[]).length);
+    var rnd=ORD_rnd(ORD_seed('ANS#'+key));
+    for(t=0;t<1500;t++){ cand=[]; pos=[];
+      for(k=0;k<n;k++){ a=(rounds[k].opts||[]).slice();
+        for(i=a.length-1;i>0;i--){ j=Math.floor(rnd()*(i+1)); x=a[i]; a[i]=a[j]; a[j]=x; }
+        cand.push(a); pos.push(a.indexOf(rounds[k].ans)); }
+      p=ANS_pen(pos,m); if(p<bestP){ bestP=p; best=cand; } if(p===0) break; }
+    return best; }
   function ORD_shuffle(list,ansSeq){
     if(!list||list.length<2)return (list||[]).slice();
     ansSeq=ansSeq||[];
@@ -690,7 +721,7 @@ window.LESSON={ id:'7B2', slides:[
     vocabFlip(sec){sec.querySelectorAll('.flip').forEach(f=>f.onclick=()=>f.classList.toggle('on'));},
     wordGame(sec,s){
       const def=sec.querySelector('.wm-def'),opts=sec.querySelector('.wm-opts'),msg=sec.querySelector('.wm-msg'),sb=sec.querySelector('.scorebar');
-      let i=0,score=0;
+      let i=0,score=0; const LAY=ANS_layout(s.rounds,s.rounds.map(r=>r.def+'='+r.ans).join('|'));
       /* 2026-08-18：原来计分条只写 0/5，屏幕上却只有一题，老师以为课件只出了一题。改成报第几题+得分。
          同日第二轮（Rico 实点后拍板）：再加一排跟题数一样多的进度点——**不点也能数到共几题**；
          并且点错的反馈留到下一次点击才清（原来 0.6 秒就没，u7 的 .wrong 还只有抖动没颜色，
@@ -706,12 +737,12 @@ window.LESSON={ id:'7B2', slides:[
       function render(){
         bar();
         if(i>=s.rounds.length){def.textContent='';opts.innerHTML='';msg.innerHTML='All done &mdash; '+score+' / '+s.rounds.length+' correct! &#9989;';return;}
-        const r=s.rounds[i];def.textContent=r.def;msg.textContent='';opts.innerHTML='';
-        r.opts.forEach(o=>{const b=document.createElement('button');b.className='wm-opt';b.textContent=o;
+        const r=s.rounds[i];def.textContent=ENT(r.def);msg.textContent='';opts.innerHTML='';
+        (LAY[i]||r.opts).forEach(o=>{const b=document.createElement('button');b.className='wm-opt';b.textContent=ENT(o);
           b.onclick=()=>{clearWrong();
-            if(o===r.ans){b.classList.add('right');score++;bar();msg.style.color='';msg.textContent='Yes! '+o;setTimeout(()=>{i++;render();},700);}
+            if(o===r.ans){b.classList.add('right');score++;bar();msg.style.color='';msg.textContent='Yes! '+ENT(o);setTimeout(()=>{i++;render();},700);}
             else{b.classList.add('wrong');b.style.background='#FBE4DA';b.style.borderColor='#B85C39';b.style.color='#B85C39';
-              msg.style.color='#B85C39';msg.textContent='Not quite — “'+o+'” is not it. Pick another one.';}};
+              msg.style.color='#B85C39';msg.textContent='Not quite — “'+ENT(o)+'” is not it. Pick another one.';}};
           opts.appendChild(b);});
       }
       render();

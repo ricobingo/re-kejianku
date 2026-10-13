@@ -419,10 +419,10 @@ window.LESSON={ id:'11A2', slides:[
    words:[{w:'People check the answer carefully.', ok:0},{w:'Most people give the same wrong answer.', ok:1},{w:'The correct answer is 10 cents.', ok:0},{w:'Answers &ldquo;pop into&rdquo; people&rsquo;s minds.', ok:1}]},
 
  {type:'quiz', theme:'sky', eyebrow:'After A&ndash;B · big idea', title:'Why do so many people get it wrong?',
-   q:'According to Paragraph B, why do most people answer 10 cents?', ans:'c', opts:[
-   {k:'a', t:'Because the question is written in a confusing and unfair way'},
+   q:'According to Paragraph B, why do most people answer 10 cents?', ans:'a', opts:[
+   {k:'a', t:'Because they take the answer that jumps into their head.'},
    {k:'b', t:'Because they are bad at mathematics'},
-   {k:'c', t:'Because they take the answer that jumps into their head.'}],
+   {k:'c', t:'Because the question is written in a confusing and unfair way'}],
    note:'Sloman&rsquo;s words: we don&rsquo;t spend much time &ldquo;reflecting and checking&rdquo;. The problem is not the maths &mdash; it is the **stopping**.'},
 
  /* ===== Paragraph C ===== */
@@ -525,10 +525,10 @@ window.LESSON={ id:'11A2', slides:[
    text:'Develop a <mark>norm</mark> in your community that says, ‘We should check things and not just take them at face value,’” Sloman says. “Verify before you believe.'},
 
  {type:'quiz', theme:'violet', eyebrow:'After J · word check', title:'norm',
-   q:'&ldquo;Develop a NORM in your community.&rdquo; What is he asking people to build?', ans:'b', opts:[
+   q:'&ldquo;Develop a NORM in your community.&rdquo; What is he asking people to build?', ans:'c', opts:[
    {k:'a', t:'A written law with a punishment for breaking it'},
-   {k:'b', t:'A habit that everybody there treats as normal'},
-   {k:'c', t:'A new website for checking facts'}],
+   {k:'b', t:'A new website for checking facts'},
+   {k:'c', t:'A habit that everybody there treats as normal'}],
    note:'A norm is not a rule you are fined for. It is what people around you simply do.'},
 
  {type:'speak', theme:'teal', eyebrow:'After J · your turn', title:'Use it: a norm in our class',
@@ -556,8 +556,8 @@ window.LESSON={ id:'11A2', slides:[
      {k:'a', t:'a loud short sound'},{k:'b', t:'to appear suddenly'},{k:'c', t:'a sweet fizzy drink'}]},
    {q:'&ldquo;Asked to **rate** their own understanding.&rdquo; &mdash; rate =', ans:'c', opts:[
      {k:'a', t:'the speed of something'},{k:'b', t:'the price of a hotel room'},{k:'c', t:'to give something a score'}]},
-   {q:'&ldquo;This idea can be seen in many **fields**, including politics.&rdquo; &mdash; field =', ans:'b', opts:[
-     {k:'a', t:'a piece of farmland'},{k:'b', t:'an area of work or study'},{k:'c', t:'a football pitch'}]},
+   {q:'&ldquo;This idea can be seen in many **fields**, including politics.&rdquo; &mdash; field =', ans:'a', opts:[
+     {k:'a', t:'an area of work or study'},{k:'b', t:'a piece of farmland'},{k:'c', t:'a football pitch'}]},
    {q:'Which one should you look up as a **whole phrase**?', ans:'a', opts:[
      {k:'a', t:'take something at face value'},{k:'b', t:'the word &ldquo;value&rdquo;'},{k:'c', t:'the word &ldquo;face&rdquo;'}]}]},
 
@@ -592,6 +592,37 @@ window.LESSON={ id:'11A2', slides:[
      不同页之间顺序不同。全 ES5 写法，旧 WebKit（ClassIn 内置浏览器）能跑。 */
   function ORD_seed(str){var h=5381;for(var i=0;i<str.length;i++){h=(h*33+str.charCodeAt(i))%4294967296;}return h;}
   function ORD_rnd(seed){var s=seed||1;return function(){s^=s<<13;s>>>=0;s^=s>>17;s^=s<<5;s>>>=0;return s/4294967296;};}
+  /* ── 2026-10-09 外教反馈修（RE2 9B2 p29 / 10A1 p5「This activity follows a pattern again」
+     「there is a spelling error」）。
+     ① 一页里几轮的正确答案位置按 1、2、3、4、1 轮着走，不读题也能猜。ANS_layout：种子取内容哈希
+        （同一页每次打开一样），每轮各自重排选项，试 300 种取罚分最低的；ANS_pen 与检查程序
+        teacher_feedback_gate.py 同一套判据。
+     ② 抢词游戏把释义写成纯文本，&rsquo; 这类符号代码原样露出来；ENT() 先还原成字符。ES5 写法。 */
+  function ENT(s){ if(s===null||s===undefined) return ''; s=String(s); if(s.indexOf('&')<0) return s;
+    var t=document.createElement('textarea'); t.innerHTML=s; return t.value; }
+  function ANS_pen(pos,m){ var L=pos.length,p=0,k,x,y,a,b,d,mm,c={};
+    if(L<2) return 0;
+    for(k=0;k<L;k++){ c[pos[k]]=(c[pos[k]]||0)+1;
+      if(k>1){ x=pos[k-1]-pos[k-2]; y=pos[k]-pos[k-1];
+        if(m>=3&&x===y&&(x===1||x===-1)) p+=100;
+        if(m>=3&&x===0&&y===0) p+=100; }
+      if(k>2){ if(pos[k]===pos[k-2]&&pos[k-1]===pos[k-3]&&pos[k]!==pos[k-1]) p+=100;
+        if(m===2&&pos[k]===pos[k-1]&&pos[k-1]===pos[k-2]&&pos[k-2]===pos[k-3]) p+=100;
+        if(m>=3){ mm=m; a=((pos[k-2]-pos[k-3])%mm+mm)%mm; b=((pos[k-1]-pos[k-2])%mm+mm)%mm; d=((pos[k]-pos[k-1])%mm+mm)%mm;
+          if(a===b&&b===d&&(a===1||a===mm-1)) p+=100; } } }
+    a=Math.floor(L/m); b=Math.ceil(L/m);
+    for(k=0;k<m;k++){ x=c[k]||0; if(x<a) p+=50*(a-x); if(x>b) p+=50*(x-b); }
+    return p; }
+  function ANS_layout(rounds,key){
+    var n=(rounds||[]).length,m=0,k,t,i,j,x,a,cand,pos,p,best=null,bestP=Infinity; if(!n) return [];
+    for(k=0;k<n;k++) m=Math.max(m,(rounds[k].opts||[]).length);
+    var rnd=ORD_rnd(ORD_seed('ANS#'+key));
+    for(t=0;t<1500;t++){ cand=[]; pos=[];
+      for(k=0;k<n;k++){ a=(rounds[k].opts||[]).slice();
+        for(i=a.length-1;i>0;i--){ j=Math.floor(rnd()*(i+1)); x=a[i]; a[i]=a[j]; a[j]=x; }
+        cand.push(a); pos.push(a.indexOf(rounds[k].ans)); }
+      p=ANS_pen(pos,m); if(p<bestP){ bestP=p; best=cand; } if(p===0) break; }
+    return best; }
   function ORD_shuffle(list,ansSeq){
     if(!list||list.length<2)return (list||[]).slice();
     ansSeq=ansSeq||[];
@@ -733,7 +764,7 @@ window.LESSON={ id:'11A2', slides:[
     vocabFlip(sec){sec.querySelectorAll('.flip').forEach(f=>f.onclick=()=>f.classList.toggle('on'));},
     wordGame(sec,s){
       const def=sec.querySelector('.wm-def'),opts=sec.querySelector('.wm-opts'),msg=sec.querySelector('.wm-msg'),sb=sec.querySelector('.scorebar');
-      let i=0,score=0;
+      let i=0,score=0; const LAY=ANS_layout(s.rounds,s.rounds.map(r=>r.def+'='+r.ans).join('|'));
       /* 2026-08-18：原来计分条只写 0/5，屏幕上却只有一题，老师以为课件只出了一题。改成报第几题+得分。
          同日第二轮（Rico 实点后拍板）：再加一排跟题数一样多的进度点——**不点也能数到共几题**；
          并且点错的反馈留到下一次点击才清（原来 0.6 秒就没，u7 的 .wrong 还只有抖动没颜色，
@@ -749,12 +780,12 @@ window.LESSON={ id:'11A2', slides:[
       function render(){
         bar();
         if(i>=s.rounds.length){def.textContent='';opts.innerHTML='';msg.innerHTML='All done &mdash; '+score+' / '+s.rounds.length+' correct! &#9989;';return;}
-        const r=s.rounds[i];def.textContent=r.def;msg.textContent='';opts.innerHTML='';
-        r.opts.forEach(o=>{const b=document.createElement('button');b.className='wm-opt';b.textContent=o;
+        const r=s.rounds[i];def.textContent=ENT(r.def);msg.textContent='';opts.innerHTML='';
+        (LAY[i]||r.opts).forEach(o=>{const b=document.createElement('button');b.className='wm-opt';b.textContent=ENT(o);
           b.onclick=()=>{if(b.disabled)return;clearWrong();
-            if(o===r.ans){opts.querySelectorAll('button').forEach(x=>x.disabled=true);b.classList.add('right');score++;bar();msg.style.color='';msg.textContent='Yes! '+o;setTimeout(()=>{i++;render();},700);}
+            if(o===r.ans){opts.querySelectorAll('button').forEach(x=>x.disabled=true);b.classList.add('right');score++;bar();msg.style.color='';msg.textContent='Yes! '+ENT(o);setTimeout(()=>{i++;render();},700);}
             else{b.classList.add('wrong');b.style.background='#FBE4DA';b.style.borderColor='#B85C39';b.style.color='#B85C39';
-              msg.style.color='#B85C39';msg.textContent='Not quite — “'+o+'” is not it. Pick another one.';}};
+              msg.style.color='#B85C39';msg.textContent='Not quite — “'+ENT(o)+'” is not it. Pick another one.';}};
           opts.appendChild(b);});
       }
       render();

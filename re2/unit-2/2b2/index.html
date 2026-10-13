@@ -437,21 +437,21 @@ window.LESSON={ id:'2B2', slides:[
    words:[{w:'copy', ok:1},{w:'never', ok:0},{w:'answer', ok:1},{w:'quickly', ok:0}]},
 
  {type:'quiz', theme:'sky', eyebrow:'After B · big idea', title:'What is Paragraph B about?',
-   q:'Which sentence tells the BIG idea of Paragraph B?', ans:'a', opts:[
-   {k:'a', t:'Baby sparrows copy adult songs so exactly that the songs barely change.'},
+   q:'Which sentence tells the BIG idea of Paragraph B?', ans:'c', opts:[
+   {k:'a', t:'Baby birds are able to learn from the older birds around them from a very young age.'},
    {k:'b', t:'Robert Lachlan is a biologist who studies birds.'},
-   {k:'c', t:'Baby birds are able to learn from the older birds around them from a very young age.'}],
-   note:'b and c are both **in** the paragraph &mdash; but each is only one detail inside the big idea.'},
+   {k:'c', t:'Baby sparrows copy adult songs so exactly that the songs barely change.'}],
+   note:'a and b are both **in** the paragraph &mdash; but each is only one detail inside the big idea.'},
 
  /* ===== Paragraph C ===== */
  {type:'reading', theme:'cream', eyebrow:'Reading · The 1,000-Year Bird Song', title:'Paragraph C',
    text:'Just like children, the sparrows don’t remember every song they hear, Lachlan says. “They don’t just learn songs at random; they pick up commoner songs rather than rarer songs.” In other words, they learn songs they hear most often. It’s an example of a strategy that scientists call conformist bias. Until recently, this learning ability was thought to be special only to <mark>humans</mark>.'},
 
  {type:'quiz', theme:'violet', eyebrow:'After C · word check', title:'commoner songs',
-   q:'The sparrows &ldquo;pick up commoner songs rather than rarer songs&rdquo;. Which bird behaves like that?', ans:'b', opts:[
+   q:'The sparrows &ldquo;pick up commoner songs rather than rarer songs&rdquo;. Which bird behaves like that?', ans:'c', opts:[
    {k:'a', t:'A bird that learns the strangest song it hears once.'},
-   {k:'b', t:'A bird that learns the song it hears most often.'},
-   {k:'c', t:'A bird that learns every single song in the marsh.'}],
+   {k:'b', t:'A bird that learns every single song in the marsh.'},
+   {k:'c', t:'A bird that learns the song it hears most often.'}],
    note:'Commoner = heard **more often**. The text says it in the next line: they learn songs they hear most often.'},
 
  {type:'speak', theme:'sky', eyebrow:'After C · your turn', title:'Say it about people',
@@ -480,10 +480,10 @@ window.LESSON={ id:'2B2', slides:[
    words:[{w:'the differences', ok:0},{w:'the calls of 615 birds', ok:1},{w:'a slower way', ok:0},{w:'the songs', ok:1}]},
 
  {type:'quiz', theme:'wine', eyebrow:'After D · read closely', title:'Why so many birds?',
-   q:'The team recorded 615 males over two years. What does that tell us about the study?', ans:'c', opts:[
+   q:'The team recorded 615 males over two years. What does that tell us about the study?', ans:'b', opts:[
    {k:'a', t:'The birds were very easy to catch in that part of the country.'},
-   {k:'b', t:'The team only had time to listen to a few songs.'},
-   {k:'c', t:'The result comes from many birds, not from one lucky bird.'}],
+   {k:'b', t:'The result comes from many birds, not from one lucky bird.'},
+   {k:'c', t:'The team only had time to listen to a few songs.'}],
    note:'One bird proves nothing. Six hundred birds across two years is **evidence**.'},
 
  /* ===== Paragraph E ===== */
@@ -513,9 +513,9 @@ window.LESSON={ id:'2B2', slides:[
    text:'study is among the first to measure the longevity of song traditions within a bird species. Another <mark>aspect</mark> scientists are now exploring is the <mark>impact</mark> of habitat loss on songbirds. Man-made barriers—such as cities, roads, and plantations—can break up a bird population into a number of isolated groups. These barriers may prevent <mark>cultural</mark> interaction between songbird populations, such as the <mark>exchange</mark> of song types.'},
 
  {type:'quiz', theme:'amber', eyebrow:'After F · word check', title:'impact',
-   q:'Scientists study the IMPACT of habitat loss on songbirds. What are they studying?', ans:'a', opts:[
-   {k:'a', t:'What losing their home does to the birds.'},
-   {k:'b', t:'How many birds live in the marshes today.'}],
+   q:'Scientists study the IMPACT of habitat loss on songbirds. What are they studying?', ans:'b', opts:[
+   {k:'a', t:'How many birds live in the marshes today.'},
+   {k:'b', t:'What losing their home does to the birds.'}],
    note:'Impact = the **effect** one thing has on another. Say it with **on**: an impact **on** the birds.'},
 
  {type:'pick2', theme:'green', eyebrow:'After F · word check', title:'impact + on', need:2,
@@ -562,8 +562,8 @@ window.LESSON={ id:'2B2', slides:[
 
  {type:'mcq', theme:'violet', eyebrow:'Skill practice · scan, don&rsquo;t read', title:'Race: find each fact in 20 seconds',
    items:[
-   {q:'How many male sparrows did the team record?', ans:'b', opts:[
-     {k:'a', t:'2'},{k:'b', t:'615'},{k:'c', t:'1,000'}]},
+   {q:'How many male sparrows did the team record?', ans:'a', opts:[
+     {k:'a', t:'615'},{k:'b', t:'2'},{k:'c', t:'1,000'}]},
    {q:'In which years did they record the birds?', ans:'c', opts:[
      {k:'a', t:'1,000 years ago'},{k:'b', t:'2002 and 2003'},{k:'c', t:'2008 and 2009'}]},
    {q:'Which scientist says the traditions are &ldquo;really stable&rdquo;?', ans:'a', opts:[
@@ -602,6 +602,37 @@ window.LESSON={ id:'2B2', slides:[
      不同页之间顺序不同。全 ES5 写法，旧 WebKit（ClassIn 内置浏览器）能跑。 */
   function ORD_seed(str){var h=5381;for(var i=0;i<str.length;i++){h=(h*33+str.charCodeAt(i))%4294967296;}return h;}
   function ORD_rnd(seed){var s=seed||1;return function(){s^=s<<13;s>>>=0;s^=s>>17;s^=s<<5;s>>>=0;return s/4294967296;};}
+  /* ── 2026-10-09 外教反馈修（RE2 9B2 p29 / 10A1 p5「This activity follows a pattern again」
+     「there is a spelling error」）。
+     ① 一页里几轮的正确答案位置按 1、2、3、4、1 轮着走，不读题也能猜。ANS_layout：种子取内容哈希
+        （同一页每次打开一样），每轮各自重排选项，试 300 种取罚分最低的；ANS_pen 与检查程序
+        teacher_feedback_gate.py 同一套判据。
+     ② 抢词游戏把释义写成纯文本，&rsquo; 这类符号代码原样露出来；ENT() 先还原成字符。ES5 写法。 */
+  function ENT(s){ if(s===null||s===undefined) return ''; s=String(s); if(s.indexOf('&')<0) return s;
+    var t=document.createElement('textarea'); t.innerHTML=s; return t.value; }
+  function ANS_pen(pos,m){ var L=pos.length,p=0,k,x,y,a,b,d,mm,c={};
+    if(L<2) return 0;
+    for(k=0;k<L;k++){ c[pos[k]]=(c[pos[k]]||0)+1;
+      if(k>1){ x=pos[k-1]-pos[k-2]; y=pos[k]-pos[k-1];
+        if(m>=3&&x===y&&(x===1||x===-1)) p+=100;
+        if(m>=3&&x===0&&y===0) p+=100; }
+      if(k>2){ if(pos[k]===pos[k-2]&&pos[k-1]===pos[k-3]&&pos[k]!==pos[k-1]) p+=100;
+        if(m===2&&pos[k]===pos[k-1]&&pos[k-1]===pos[k-2]&&pos[k-2]===pos[k-3]) p+=100;
+        if(m>=3){ mm=m; a=((pos[k-2]-pos[k-3])%mm+mm)%mm; b=((pos[k-1]-pos[k-2])%mm+mm)%mm; d=((pos[k]-pos[k-1])%mm+mm)%mm;
+          if(a===b&&b===d&&(a===1||a===mm-1)) p+=100; } } }
+    a=Math.floor(L/m); b=Math.ceil(L/m);
+    for(k=0;k<m;k++){ x=c[k]||0; if(x<a) p+=50*(a-x); if(x>b) p+=50*(x-b); }
+    return p; }
+  function ANS_layout(rounds,key){
+    var n=(rounds||[]).length,m=0,k,t,i,j,x,a,cand,pos,p,best=null,bestP=Infinity; if(!n) return [];
+    for(k=0;k<n;k++) m=Math.max(m,(rounds[k].opts||[]).length);
+    var rnd=ORD_rnd(ORD_seed('ANS#'+key));
+    for(t=0;t<1500;t++){ cand=[]; pos=[];
+      for(k=0;k<n;k++){ a=(rounds[k].opts||[]).slice();
+        for(i=a.length-1;i>0;i--){ j=Math.floor(rnd()*(i+1)); x=a[i]; a[i]=a[j]; a[j]=x; }
+        cand.push(a); pos.push(a.indexOf(rounds[k].ans)); }
+      p=ANS_pen(pos,m); if(p<bestP){ bestP=p; best=cand; } if(p===0) break; }
+    return best; }
   function ORD_shuffle(list,ansSeq){
     if(!list||list.length<2)return (list||[]).slice();
     ansSeq=ansSeq||[];
@@ -743,7 +774,7 @@ window.LESSON={ id:'2B2', slides:[
     vocabFlip(sec){sec.querySelectorAll('.flip').forEach(f=>f.onclick=()=>f.classList.toggle('on'));},
     wordGame(sec,s){
       const def=sec.querySelector('.wm-def'),opts=sec.querySelector('.wm-opts'),msg=sec.querySelector('.wm-msg'),sb=sec.querySelector('.scorebar');
-      let i=0,score=0;
+      let i=0,score=0; const LAY=ANS_layout(s.rounds,s.rounds.map(r=>r.def+'='+r.ans).join('|'));
       /* 2026-08-18：原来计分条只写 0/5，屏幕上却只有一题，老师以为课件只出了一题。改成报第几题+得分。
          同日第二轮（Rico 实点后拍板）：再加一排跟题数一样多的进度点——**不点也能数到共几题**；
          并且点错的反馈留到下一次点击才清（原来 0.6 秒就没，u7 的 .wrong 还只有抖动没颜色，
@@ -759,12 +790,12 @@ window.LESSON={ id:'2B2', slides:[
       function render(){
         bar();
         if(i>=s.rounds.length){def.textContent='';opts.innerHTML='';msg.innerHTML='All done &mdash; '+score+' / '+s.rounds.length+' correct! &#9989;';return;}
-        const r=s.rounds[i];def.textContent=r.def;msg.textContent='';opts.innerHTML='';
-        r.opts.forEach(o=>{const b=document.createElement('button');b.className='wm-opt';b.textContent=o;
+        const r=s.rounds[i];def.textContent=ENT(r.def);msg.textContent='';opts.innerHTML='';
+        (LAY[i]||r.opts).forEach(o=>{const b=document.createElement('button');b.className='wm-opt';b.textContent=ENT(o);
           b.onclick=()=>{if(b.disabled)return;clearWrong();
-            if(o===r.ans){opts.querySelectorAll('button').forEach(x=>x.disabled=true);b.classList.add('right');score++;bar();msg.style.color='';msg.textContent='Yes! '+o;setTimeout(()=>{i++;render();},700);}
+            if(o===r.ans){opts.querySelectorAll('button').forEach(x=>x.disabled=true);b.classList.add('right');score++;bar();msg.style.color='';msg.textContent='Yes! '+ENT(o);setTimeout(()=>{i++;render();},700);}
             else{b.classList.add('wrong');b.style.background='#FBE4DA';b.style.borderColor='#B85C39';b.style.color='#B85C39';
-              msg.style.color='#B85C39';msg.textContent='Not quite — “'+o+'” is not it. Pick another one.';}};
+              msg.style.color='#B85C39';msg.textContent='Not quite — “'+ENT(o)+'” is not it. Pick another one.';}};
           opts.appendChild(b);});
       }
       render();
